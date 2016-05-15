@@ -34,13 +34,22 @@ include '../config/db.php';
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
     <!-- bootstrap wysihtml5 - text editor -->
     <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
-
+    <!-- DataTables -->
+    <link rel="stylesheet" href="plugins/datatables/dataTables.bootstrap.css">
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
         <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
         <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
+
+    <!-- tambahan dari online tes -->
+    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+    <script src="js/ckeditor.js"></script>
+    <script src="js/ckfinder/ckfinder.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/ckeditor_fungsi.js"></script>
+    <script src="js/calendar.js"></script>
   </head>
   <body class="hold-transition skin-blue sidebar-mini">
     <div class="wrapper">
@@ -83,7 +92,7 @@ if (isset($_GET['hal'])) {
     <!-- jQuery 2.1.4 -->
     <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
-    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script> -->
     <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
     <script>
       $.widget.bridge('uibutton', $.ui.button);
@@ -91,10 +100,15 @@ if (isset($_GET['hal'])) {
     <!-- Bootstrap 3.3.5 -->
     <script src="bootstrap/js/bootstrap.min.js"></script>
 
+    <!-- Ckeditor -->
+    <!-- <script src="plugins/ckeditor/ckeditor.js"></script> -->
+
     <!-- DataTables -->
     <script src="plugins/datatables/jquery.dataTables.min.js"></script>
     <script src="plugins/datatables/dataTables.bootstrap.min.js"></script>
     
+
+
     <!-- Morris.js charts -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script> -->
     <!-- <script src="plugins/morris/morris.min.js"></script> -->
@@ -137,7 +151,7 @@ if (isset($_GET['hal'])) {
           "autoWidth": false
         });
       });
-    </script>
+    </script>   
   </body>
 </html>
 <?php 

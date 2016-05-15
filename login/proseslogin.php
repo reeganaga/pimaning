@@ -12,6 +12,7 @@ if (isset($_POST['login'])) {
 	if ($ada>0) {
 		while ($row=mysql_fetch_array($aksi)) {
 			$_SESSION['username']=$row['username'];
+			$_SESSION['id_user']=$row['id_user'];
 			$_SESSION['email']=$row['email'];
 			$_SESSION['nama_lengkap']=$row['nama_lengkap'];
 			$_SESSION['alamat']=$row['alamat'];

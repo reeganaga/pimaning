@@ -1,212 +1,136 @@
-<?php
-/*--------------------------------------------------------
- * Buat ujian untuk mata pelajaran tertentu
- * fungsi bersihkan() dan kembali_semula() telah didefinisikan
- * pada file hal_guru.php dengan asumsi bahwa sebelum membuka
- * halaman ini pasti telah membuka terlebih dahulu halaman
- * hal_guru.php ( halaman awal )
- *--------------------------------------------------------*/ 
-include_once "include/cek_session.php";
-include_once "include/koneksi.php"; 
-$id_pelajaran = $_REQUEST['id_pelajaran'];
-$nama_pelajaran = mysql_result(mysql_query("select nama_pelajaran from pelajaran where id_pelajaran='".$id_pelajaran."'"),0);
-?>
-<div style="margin:0 auto;width:85%">
-<fieldset>
-<legend>Daftar Ujian Pada Mata Pelajaran <?php echo $nama_pelajaran ?></legend>
-<form id="f_ujian">
-<input type="hidden" name="id_pelajaran" id="id_pelajaran" value="<?php echo $id_pelajaran ?>" class="inputan"/>	
-<input type="text" name="nama_ujian" id="nama_ujian" value="Nama Ujian" class="inputan" onfocus="bersihkan(this)" onblur="kembali_semula(this)"/>
-<input type="text" name="tgl_ujian" id="tanggal" value="Tanggal ujian" class="inputan" onfocus="bersihkan(this)" onblur="kembali_semula(this)"/>
-<input type="text" name="waktu" id="waktu" value="Waktu (dalam menit)" class="inputan" onfocus="bersihkan(this)" onblur="kembali_semula(this)"/>
-<input type="text" name="keterangan" id="keterangan" size="60" value="Keterangan" class="inputan" onfocus="bersihkan(this)" onblur="kembali_semula(this)"/>
-<span class="tombol tambah" id="simpan_ujian" onclick="simpan_ujian(this)">Ujian</span>
-<span id="update_ujian" style="display:none">
-<span class="tombol simpan" onclick="update_ujian(this)">Ujian</span>
-<span class="tombol batal" onclick="batal_update()">Batal</span>
-</span>
-</form>
-<div class='daftar_ujian'>
-	<div class='no'>No</div>
-	<div class='nama_ujian'>Nama Ujian</div>
-	<div class='tanggal'>Tanggal</div>
-	<div class='waktu'>Waktu</div>
-	<div class='jml_soal'>Jml_Soal</div>
-	<div class='ket'>Keterangan</div>
-	<div class='aksi'>Aksi</div>
-</div>	
-<?php
-// tampilkan seluruh ujian pada mata pelajaran ini
-$sql = "select * from ujian where id_pelajaran ='".$id_pelajaran."'";
-$sql_exe = mysql_query($sql);
-$no = 1;
-while($data = mysql_fetch_assoc($sql_exe)){
-	echo "<div class='daftar_ujian'>";
-	echo "<div class='no'>".$no++."</div>";
-	echo "<div class='nama_ujian'>".$data['nama_ujian']."</div>";
-	echo "<div class='tanggal'>".$data['tgl_ujian']."</div>";
-	echo "<div class='waktu'>".$data['waktu']." Menit</div>";
-	$jml_soal = mysql_result(mysql_query("select count(*) from soal where id_ujian='".$data['id_ujian']."'"),0);
-	echo "<div class='jml_soal'>".$jml_soal."</div>";
-	echo "<div class='ket'>".$data['keterangan']."</div>";
-	echo "<div class='aksi'><span class='tombol edit' onclick='edit_ujian(this,\"".$data['id_ujian']."\")'>Ujian</span><span class='tombol tambah' onclick='tambah_soal_ujian(\"".$data['id_ujian']."\")'>";
-	echo "Soal</span><span class='tombol edit' onclick='edit_soal_ujian(\"".$data['id_ujian']."\")'>Soal</span><span class='tombol hapus' onclick='hapus_ujian(this,\"".$data['id_ujian']."\")'>Ujian</span></div>";
-	echo "</div>";
-	}
+        <?php 
+        if ($_GET['id']) {
+          $id=$_GET['id'];
+        }
 
-?>
-</fieldset>
-</div>
-<div class="kembali" onclick="kembali_daftar_mp()">Kembali</div>
-<script type="text/javascript">
-function kembali_daftar_mp(){
-	$("#content").html(info_loading).load("halaman/ujian/daftar_mp.php");
-	}	
-function tambah_soal_ujian(id_ujian){
-	$("#content").html(info_loading).load("halaman/ujian/buat_soal.php?id_ujian="+id_ujian);
-}	
-function edit_soal_ujian(id_ujian){
-	$("#content").html(info_loading).load("halaman/ujian/edit_soal.php?id_ujian="+id_ujian);
-}		
-function simpan_ujian(elm){
-	var errornya = 0;
-	$(".inputan").each(function(){
-		if($(this).val() == ""){
-			errornya++;
-			$(this).focus();
-			return false;
-			}
-		})	
-	if(errornya == 0){
-		//simpan ke database
-		var data = $(elm).parent().serializeArray();
-		var url = "halaman/ujian/simpan_form.php";
-		var tabel = "ujian";
-		$.post(url,{data:data,tbl:tabel},function(hasil){
-			if(hasil == 1){
-				// reload content dengan halaman ini, karena kita butuh id_ujian dari server
-				$("#content").html(info_loading).load("halaman/ujian/daftar_ujian.php?id_pelajaran=<?php echo $id_pelajaran; ?>");
-				}
-			else{
-				alert("gagal disimpan, mungkin data sudah ada \n atau koneksi bermasalah");
-				}	
-			})
-		}
-	else {
-		alert("harus diisi semua....");
-	}	
-}
-function hapus_ujian(elm,id_ujian){
-	var hapus = confirm("Dengan menghapus ujian ini berarti anda juga akan \n 'Menghapus seluruh data yang berkaitan dengan ujian ini ...'");
-	if(hapus){
-	var url = "halaman/ujian/hapus_data.php";		
-	$.post(url,{id_nilai:id_ujian,id_nama:"id_ujian",table:"ujian"},function(hasil){
-		if(hasil == 1){
-			// hapus dibaris yang dihapus saja kawan
-			$(elm).parent().parent().remove();
-		//	$("#content").html("").load("daftar_ujian.php?id_pelajaran=<?php echo $id_pelajaran; ?>");
-			}
-		else {
-			alert("gagal dihapus cek query anda .....");
-			}	
-		})
-	}
-}	
-function edit_ujian(elm,id_ujian){
-	var baris = $(elm).parent().parent();
-	$(baris).parent().find("div.sedang_diedit").removeClass("sedang_diedit");
-	$(baris).parent().find("div.telah_diedit").removeClass("telah_diedit");
-	$(baris).addClass("sedang_diedit");
-	// tampilkan data baris tersebut pada form
-	var nama_ujian = $(baris).find("div.nama_ujian").text();
-	var tanggal = $(baris).find("div.tanggal").text();
-	var waktu = $(baris).find("div.waktu").text();
-	waktu = waktu.split(" ");
-	var ket = $(baris).find("div.ket").text();
-	$("#nama_ujian").val(nama_ujian);
-	$("#tanggal").val(tanggal);
-	$("#waktu").val(waktu[0]);
-	$("#keterangan").val(ket);
-	$("#simpan_ujian").fadeOut();
-	$("#update_ujian").fadeIn();
-	// ambil id_ujian
-	$("#update_ujian").data('id_ujian',id_ujian);
-	}	
-function batal_update(){
-	$("div.sedang_diedit").removeClass("sedang_diedit");
-	$("#update_ujian").fadeOut();
-	$("#simpan_ujian").fadeIn();
-	$(".inputan").each(function(){
-		$(this).val($("#content").data($(this).attr("name")));
-		})
-	}	
-function update_ujian(elm){
-	var errornya = 0;
-	$(".inputan").each(function(){
-		if($(this).val() == ""){
-			errornya++;
-			$(this).focus();
-			return false;
-			}
-		})	
-	if(errornya == 0){
-		//simpan ke database
-		var data = $(elm).parent().parent().serializeArray();
-		var url = "halaman/ujian/update_data.php";
-		var tabel = "ujian";
-		data.unshift({"name":"id_ujian","value":$("#update_ujian").data("id_ujian")});
-		$.post(url,{data:data,table:tabel},function(hasil){
-			if(hasil == 1){
-				// update data pada baris yang diedit
-				var baris = $("div.sedang_diedit");
-				$(baris).find("div.nama_ujian").text($("#nama_ujian").val());
-				$(baris).find("div.tanggal").text($("#tanggal").val());
-				$(baris).find("div.waktu").text($("#waktu").val()+" Menit");
-				$(baris).find("div.ket").text($("#keterangan").val());
-				// hapus class sedang diedit dan tambahkan kelas telah diedit
-				$(baris).removeClass("sedang_diedit").addClass("telah_diedit");
-				}
-			else{
-				alert("gagal disimpan, mungkin data sudah ada \n atau koneksi bermasalah"+hasil);
-				
-				}	
-			})			
-		}
-	else {
-		alert("harus diisi semua....");
-	}	
-	}
-$(function(){
-	calendar.set("tanggal");
-})
-</script>
-<style>
-.daftar_ujian{
-	border:1px solid gray;
-	margin:2px;
-	overflow:auto;
-	}	
-.daftar_ujian div{
-	float:left;
-	margin:3px;
-	padding:4px;
-	}
-.daftar_ujian div.no{
-	width:2%;
-	}	
-.daftar_ujian div.nama_ujian{
-	width:15%;
-	}
-.daftar_ujian div.tanggal{
-	width:8%;
-	}
-.daftar_ujian div.waktu{
-	width:6%;
-	}
-.daftar_ujian div.jml_soal{
-	width:5%;
-	}	
-.daftar_ujian div.ket{
-	width:26%;
-	}
-</style>
+        if (isset($_POST['insert_ujian'])) {
+          $nama_ujian=$_POST['nama_ujian'];
+          $tgl_ujian=$_POST['tgl_ujian'];
+          $waktu=$_POST['waktu'];
+          $keterangan=$_POST['keterangan'];
+          $id_pelajaran=$_POST['id'];
+
+          $query=mysql_query("INSERT into ujian(nama_ujian,tgl_ujian,waktu,keterangan,id_pelajaran)
+                  values('$nama_ujian','$tgl_ujian','$waktu','$keterangan',$id_pelajaran) ");
+          // echo "INSERT into ujian(nama_ujian,tgl_ujian,waktu,keterangan,id_pelajaran)
+          //         values('$nama_ujian','$tgl_ujian','$waktu','$keterangan',$id_pelajaran)";
+          if ($query) {
+            $msg="Data Berhasil ditambahkan";
+          }else{
+            // echo mysql_error();
+            $msg="Data Gagal ditambahkan";
+          }
+        }
+         ?>
+<!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <h1>
+            Data Tables
+            <small>advanced tables</small>
+          </h1>
+          <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Tables</a></li>
+            <li class="active">Data tables</li>
+          </ol>
+        </section>
+
+        <!-- Main content -->
+
+        <section class="content">
+        <?php if (isset($msg)): ?>
+        <div class="alert alert-warning alert-dismissible fade in" style="border-radius: 0px !important;" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <?php echo $msg; print_r($query);?>
+        </div>          
+        <?php endif ?>
+          <div class="row">
+            <div class="col-md-3">
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Input Data Ujian</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                <form class="form" method="post" action="">
+                  <div class="form-group">
+                    <label class="control-label">Nama Ujian</label>
+                    <input name="nama_ujian" type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Tanggal</label>
+                    <input name="tgl_ujian" type="date" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Waktu</label>
+                    <input name="waktu" min="1" type="number" placeholder="dalam menit" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label">Keterangan</label>
+                    <input name="keterangan" type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <input name="id" type="text" value="<?php echo $id; ?>"></input>
+                    <input name="insert_ujian" type="submit" class="form-control btn btn-success btn-flat" value="Simpan"></input>
+                  </div>
+                </form>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div>
+            <div class="col-md-9">
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Data Table With Full Features</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                  <?php 
+                  $getdata=mysql_query("SELECT * from ujian where id_pelajaran=$id");
+                  $banyak=mysql_num_rows($getdata);
+                   ?>
+                  <table id="example1" class="table table-bordered table-striped">
+                    <thead>
+                      <tr>
+                        <th>Judul</th>
+                        <th>Tanggal</th>
+                        <th>Waktu</th>
+                        <th>Soal</th>
+                        <th>keterangan</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php if ($banyak>0) {
+                        while ($row=mysql_fetch_array($getdata)) {
+                          
+                       ?>
+                      <tr>
+                        <td><?php echo $row['nama_ujian']; ?></td>
+                        <td><?php echo $row['tgl_ujian']; ?></td>
+                        <td><?php echo $row['waktu']; ?> Menit</td>
+                        <td>
+                          <?php 
+                          $soal=mysql_query("SELECT * from soal where id_ujian =".$row['id_ujian']);
+                          $banyaksoal=mysql_num_rows($soal);
+                          echo $banyaksoal;
+                           ?>
+                        </td>
+                        <td><?php echo $row['keterangan']; ?></td>
+                        <td>
+                          <a class="btn btn-sm btn-flat btn-primary" href=""><i class="fa fa-edit"></i>Ujian</a>
+                          <a class="btn btn-sm btn-flat btn-primary" href=""><i class="fa fa-trash"></i>Ujian</a>
+                          <a class="btn btn-sm btn-flat btn-primary" href="index.php?hal=ujian/buat_soal&id_ujian=<?php echo $row['id_ujian']; ?>"><i class="fa fa-plus"></i>Soal</a>
+                          <a class="btn btn-sm btn-flat btn-primary" href=""><i class="fa fa-edit"></i>Soal</a>
+                        </td>  
+                      </tr>
+                      <?php 
+                        }
+                      } ?>
+                    </tbody>
+                  </table>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div><!-- /.col -->
+          </div><!-- /.row -->
+        </section><!-- /.content -->
+      </div><!-- /.content-wrapper -->

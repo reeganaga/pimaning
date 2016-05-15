@@ -1,5 +1,7 @@
 <?php 
-session_start(); ?>
+session_start(); 
+include 'config/db.php';
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,6 +18,10 @@ session_start(); ?>
     <link href="css/prettyPhoto.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
     <link href="css/responsive.css" rel="stylesheet">
+    <link href="css/custom.css" rel="stylesheet">
+    <link href="belakang/dist/css/AdminLTE.min.css" rel="stylesheet">
+    <!-- DataTables -->
+    <link rel="stylesheet" href="belakang/plugins/datatables/dataTables.bootstrap.css">    
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
     <script src="js/respond.min.js"></script>
@@ -25,6 +31,12 @@ session_start(); ?>
     <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114-precomposed.png">
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57-precomposed.png">
+
+    <!-- jquery -->
+    <script src="js/jquery.js"></script>
+    <script src="js/jquery.plugin.min.js"></script>
+    <script src="js/jquery.countdown.min.js"></script>
+
 </head><!--/head-->
 
 <body class="homepage">
@@ -41,6 +53,7 @@ session_start(); ?>
                         <a href="index.php?page=dashboard">
                             <button class="btn btn-primary btn-sm">Dashboard</button>
                         </a>
+                        <a href="pages/logout.php">logout</a>
                     </div>
                     <div class="col-sm-6 col-xs-8">
                        <div class="social">
@@ -74,7 +87,7 @@ session_start(); ?>
                     </button>
                     <a class="navbar-brand" href="index.html"><img src="images/logo.png" alt="logo"></a>
                 </div>
-				
+
                 <div class="collapse navbar-collapse navbar-right">
                     <ul class="nav navbar-nav">
                         <li class="active"><a href="index.html">Home</a></li>
@@ -92,6 +105,7 @@ session_start(); ?>
                         </li>
                         <li><a href="blog.html">Blog</a></li> 
                         <li><a href="contact-us.html">Contact</a></li>                        
+                        <li><a href="daftar/">Daftar</a></li>                        
                     </ul>
                 </div>
             </div><!--/.container-->
@@ -198,11 +212,35 @@ session_start(); ?>
         </div>
     </footer><!--/#footer-->
 
-    <script src="js/jquery.js"></script>
+    <!-- <script src="js/jquery.js"></script> -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/jquery.prettyPhoto.js"></script>
     <script src="js/jquery.isotope.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/wow.min.js"></script>
+    <!-- <script src="belakang/plugins/wow.min.js"></script> -->
+    <!-- DataTables -->
+    <script src="belakang/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="belakang/plugins/datatables/dataTables.bootstrap.min.js"></script>
+    <!-- page script -->
+    <script>
+      $(function () {
+        $("#example1").DataTable();
+        $('#example2').DataTable({
+          "paging": true,
+          "lengthChange": false,
+          "searching": false,
+          "ordering": true,
+          "info": true,
+          "autoWidth": false
+        });
+      });
+    
+      // page kerjakan soal
+
+    </script>
+
+    <!-- page kerjakan soal -->
+
 </body>
 </html>

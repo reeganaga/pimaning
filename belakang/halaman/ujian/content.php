@@ -54,7 +54,7 @@ if ($jumlah>0) {
                           ?>
                         </td>
                         <td>
-                          <a href="index.php?hal=ujian/daftar_ujian" class="btn btn-success btn-flat"><i class="fa fa-plus"></i> Ujian</a>
+                          <a href="index.php?hal=ujian/daftar_ujian&id=<?php echo $row['id_pelajaran']; ?>" class="btn btn-success btn-flat"><i class="fa fa-plus"></i> Ujian</a>
                           <a href="index.php?hal=ujian/content&aksi=edit&id=<?php echo $row['id_pelajaran']; ?>" class="btn btn-warning btn-flat"><i class="fa fa-edit"></i> Ubah</a>
                           <a href="index.php?hal=ujian/content&aksi=hapus&id=<?php echo $row['id_pelajaran']; ?>" class="btn btn-danger btn-flat"><i class="fa fa-trash"></i> Hapus</a>
 
