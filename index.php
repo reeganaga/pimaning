@@ -51,9 +51,15 @@ include 'config/db.php';
                     </div>
                     <div class="col-sm-3 col-xs-2">
                         <a href="index.php?page=dashboard">
-                            <button class="btn btn-primary btn-sm">Dashboard</button>
+                            <a class="label bg-blue" href="index.php?page=dashboard">Dashboard</a>
                         </a>
-                        <a href="pages/logout.php">logout</a>
+                        <a href="index.php?page=dashboard">
+                            <a class="label bg-blue" href="index.php?page=pelajaran">Pelajaran</a>
+                        </a>
+                        <a href="index.php?page=dashboard">
+                            <a class="label bg-blue" href="index.php?page=list_ujian">Ujian Anda</a>
+                        </a>
+                        <a href="pages/logout.php" class="label bg-green">logout</a>
                     </div>
                     <div class="col-sm-6 col-xs-8">
                        <div class="social">
