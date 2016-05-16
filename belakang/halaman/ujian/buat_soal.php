@@ -81,7 +81,7 @@ else {
   } 
 
 ?>
-<div class="kembali" onclick="kembali_lagi('<?php echo $id_pelajaran ?>')">Kembali</div>
+<a class="kembali btn btn-success" href="index.php?hal=ujian/daftar_ujian&id=<?php echo $id_pelajaran ?>" >Kembali</a>
 <script type="text/javascript">
 function soal_kosong(id_ujian,soal_ke,jum_soal){
 var jml_pil_jawaban = 5;
@@ -99,7 +99,7 @@ var soal_kosong =  "<div class='soal_ujian'>";
   soal_kosong += "<div><span style='text-decoration:underline'>Kunci Jawaban :</span>";
   soal_kosong += "<div class='kunci_jawaban'></div>";
   soal_kosong += "</div>";  
-  soal_kosong += "<div style='margin:10px'><span class='tombol simpan' onclick='simpan(this)'>Simpan</span><span class='tombol reset' onclick='reset(this)'>Reset</span></div>";  
+  soal_kosong += "<div style='margin:10px'><span class='tombol simpan btn bg-green btn-flat' onclick='simpan(this)'>Simpan</span><span class='tombol reset btn btn-warning btn-flat' onclick='reset(this)'>Reset</span></div>";  
   soal_kosong += "</div></div>";
 return soal_kosong;   
 }
@@ -270,8 +270,8 @@ $(function(){
   $("#t_soal").click();
 })  
 </script>
-<div id="t_soal" class="tombol tambah" onclick="tambah_soal(1)">
-Soal
+<div id="t_soal" class="tombol tambah bg-green btn btn-flat" onclick="tambah_soal(1)">
+<i class="fa fa-plus"></i>Soal
 <span id="info_jml_soal">0</span> 
 </div>
 <div id="tempat_soal">
@@ -288,14 +288,16 @@ Soal
   color:#FFFFFF;
   } 
 #t_soal{
-  position:fixed;
-  top:43%;
-//  left:-2%;
-  z-index:20;
-  padding:5px;
-  padding-left:20px;
-  border:1px solid #477412;
-  } 
+position: fixed;
+top: 1%;
+ /*left: -2%;*/
+z-index: 20;
+padding: 5px;
+padding-left: 20px;
+border: 1px solid #477412;
+left: 50%;
+z-index: 2000;
+}
 #t_soal:hover{
   }   
 #tempat_soal{

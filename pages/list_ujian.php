@@ -64,16 +64,18 @@ if (isset($_SESSION['username'])) {
                             </td>
                             <td>
                                  <?php 
-                                 $cekdata=mysql_query("SELECT nilai from nilai where id_ujian=".$row['id_ujian']." and id_user=".$_SESSION['id_user']);
-                                $ada=mysql_num_rows($cekdata);
-                                if ($ada>0) {
-                                   $nilai=mysql_result(mysql_query("SELECT nilai from nilai where id_ujian=".$row['id_ujian']." and id_user=".$_SESSION['id_user']), 0);
-                                    echo $nilai;
-                                }else{
-                                    echo "kosong";
+                                //  $cekdata=mysql_query("SELECT nilai from nilai where id_ujian=".$row['id_ujian']." and id_user=".$_SESSION['id_user']);
+                                // $ada=mysql_num_rows($cekdata);
+                                // if ($ada>0) {
+                                //    $nilai=mysql_result(mysql_query("SELECT nilai from nilai where id_ujian=".$row['id_ujian']." and id_user=".$_SESSION['id_user']), 0);
+                                //     echo $nilai;
+                                // }else{
+                                //     echo "Belum dikerjakan";
                                  
                                 
-                                }?>
+                                // }
+                                 echo $row['nilai'];
+                                ?>
                             </td>
                             <td><a class="btn btn-success" href="index.php?page=lihat_jawaban&id_ujian=<?php echo $row['id_ujian']; ?>">Lihat Jawaban</a></td>
                           </tr>

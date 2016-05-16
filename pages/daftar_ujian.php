@@ -67,14 +67,21 @@ if (isset($_SESSION['username'])) {
                                 $ada=mysql_num_rows($cekdata);
                                 if ($ada>0) {
                                    $nilai=mysql_result(mysql_query("SELECT nilai from nilai where id_ujian=".$row['id_ujian']." and id_user=".$_SESSION['id_user']), 0);
-                                    echo $nilai;
+                                    echo '<span class="bg-red" style="padding:5px;">'.$nilai.'</span>';
                                 }else{
-                                    echo "kosong";
+                                    $nilai="kosong";
+                                    echo $nilai;
                                  
                                 
                                 }?>
                             </td>
-                            <td><a class="btn btn-success" href="index.php?page=kerjakan_ujian&id_ujian=<?php echo $row['id_ujian']; ?>">kerjakan</a></td>
+                            <td>
+                                <?php if ($nilai=='kosong'): ?>
+                                    <a class="btn btn-warning" href="index.php?page=kerjakan_ujian&id_ujian=<?php echo $row['id_ujian']; ?>">kerjakan</a>                                
+                                <?php else: ?>
+                                    <a class="btn btn-success" href="index.php?page=lihat_jawaban&id_ujian=<?php echo $row['id_ujian']; ?>">Jawaban</a>                                
+                                <?php endif ?>
+                            </td>
                           </tr>
                 <?php 
                 } ?>

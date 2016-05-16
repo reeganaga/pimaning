@@ -71,7 +71,7 @@
                     <input name="keterangan" type="text" class="form-control"></input>
                   </div>
                   <div class="form-group">
-                    <input name="id" type="text" value="<?php echo $id; ?>"></input>
+                    <input name="id" type="hidden" value="<?php echo $id; ?>"></input>
                     <input name="insert_ujian" type="submit" class="form-control btn btn-success btn-flat" value="Simpan"></input>
                   </div>
                 </form>

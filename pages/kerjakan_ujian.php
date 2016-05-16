@@ -31,13 +31,23 @@ else {
                 </div>        
             </div>
             <div class="row">   
-                <div class="col-md-2">a</div>
-                <div class="col-md-10">
+                <div class="col-md-3">
+                    <div class="box fix-timer">
+                        <div class="box-header">
+                            <h3 class="box-title">Sisa Waktu</h3>
+                        </div>
+                        <div class="box-body">
+                            <div id="timer">00 : 00 : 00</div>
+                        </div>
+                    </div>
+                    <!-- <div id="timer">00 : 00 : 00</div> -->
+                </div>
+                <div class="col-md-9">
                 
                 <div class="box">
                     <div class="box-header">
                       <h3 class="box-title">Selamat Mengerjakan</h3>
-                        <div id="timer">00 : 00 : 00</div>
+                        
 
                     </div><!-- /.box-header -->
                     <div class="box-body">
@@ -77,7 +87,7 @@ else {
                                 //      echo '<div class="pilihan_jawaban"><input type="radio" name="'.$data_pil['id_soal'].'" value="'.$data_pil['status'].'" onclick="koreksi(this)"/><div>'.$data_pil['jawaban'].'</div></div>';
                                 //      }
                                 foreach($data_pil_arr[$soalnya["id_soal"]] as $data_pil) {
-                                    echo '<div class="pilihan_jawaban" onclick=""><input alt="'.$data_pil["id_jawaban"].'" type="radio" name="'.$soalnya["id_soal"].'" value="'.$data_pil['status'].'" /><div>'.$data_pil['jawaban'].'</div></div>';
+                                    echo '<div class="pilihan_jawaban radio" onclick=""><label><input alt="'.$data_pil["id_jawaban"].'" type="radio" name="'.$soalnya["id_soal"].'" value="'.$data_pil['status'].'" />'.$data_pil['jawaban'].'</label></div>';
                                     }
                         echo '</div>
                             </div>
@@ -88,7 +98,7 @@ else {
                         echo "soal masih belum ada !!!!!!!!!";
                         }   
                     ?>      
-                        <div style="margin-top:25px"><span style="padding:6px;font-size:95%" class="tombol" onclick="koreksi_simpan()">Koreksi dan Simpan</span></div>
+                        <div style="margin-top:25px"><span style="padding:6px;font-size:95%" class="tombol btn bg-green btn-flat" onclick="koreksi_simpan()">Koreksi dan Simpan</span></div>
                         </div><!-- akhir div tempat_soal -->
 
                     </div><!-- /.box-body -->
@@ -119,7 +129,8 @@ function hampirHabis(periods){
     }
 function tutup_redirect(id_info,id_pelajaran){
     $("#"+id_info).parent().remove();
-    $("#content").html(info_loading).load("daftar_ujian_siswa.php?id_pelajaran="+id_pelajaran);
+    // $("#content").html(info_loading).load("daftar_ujian_siswa.php?id_pelajaran="+id_pelajaran);
+    window.location="index.php?page=daftar_ujian&id_pelajaran="+id_pelajaran;
             };  
 function coba_lagi(id_info){
     $("#"+id_info).parent().remove();
@@ -170,7 +181,12 @@ function koreksi_simpan(){
     $(div_overlay).appendTo("#tempat_soal");
     var atas = (($(window).height() - $("#"+id_info).height()) / 2) + $(window).scrollTop();
     var kiri = (($(window).width() - $("#"+id_info).width()) / 2) + $(window).scrollLeft();
-    $("#"+id_info).css({"top":atas+"px","left":kiri+"px"});
+    // $("#"+id_info).css({"top":atas+"px","left":kiri+"px"});
+
+    // custom info setelah simpan
+    // $("#"+id_info).css({"top":atas+"px","left":kiri+"px"});
+    $("#"+id_info).css({"top":"-15%","left":"20%"});
+    
     //simpan ke database
     var url = "pages/simpan_form.php";
     var tabel = "nilai";
@@ -202,7 +218,7 @@ function koreksi_simpan(){
             data:{tbl:tabel,data:data},
             success:function(){
                 var ket_nilai = "<div>Nilai Anda : "+nilai+"</div><div>Jawaban Yang benar :"+benar+"</div><div>Jumlah soal "+jum_soal+"</div>";
-                ket_nilai +="<div style='margin-top:5px'><span class='tombol' onclick='tutup_redirect(\""+id_info+"\",\""+id_pelajaran+"\")'>OK</span></div>";
+                ket_nilai +="<div style='margin-top:5px'><span class='tombol btn bg-green btn-flat' onclick='tutup_redirect(\""+id_info+"\",\""+id_pelajaran+"\")'>OK</span></div>";
             $("#"+id_info).html(ket_nilai);
             },
             error:function(){
