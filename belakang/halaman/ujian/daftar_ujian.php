@@ -21,6 +21,10 @@
             $msg="Data Gagal ditambahkan";
           }
         }
+
+        if (isset($_POST['update_ujian'])) {
+          
+        }
          ?>
 <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
@@ -46,6 +50,8 @@
           <?php echo $msg; print_r($query);?>
         </div>          
         <?php endif ?>
+                <a class="btn btn-flat btn-warning " href="index.php?hal=ujian/content">kembali</a>
+                <p></p>
           <div class="row">
             <div class="col-md-3">
               <div class="box">

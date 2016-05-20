@@ -6,10 +6,10 @@
                      ?>
                     <ul class="list-group">
                       <li class="list-group-item">
-                        Dashboard
+                        <a href="index.php?page=dashboard">Dashboard</a>
                       </li>
                       <li class="list-group-item">
-                        Pengaturan
+                        <a href="#">Pengaturan</a>
                       </li>
                       <li class="list-group-item">
                       	<span class="label btn-success pull-right"><?php echo $bykpelajaran; ?></span>

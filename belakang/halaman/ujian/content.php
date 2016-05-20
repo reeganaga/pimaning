@@ -1,3 +1,20 @@
+
+<?php 
+        if (isset($_POST['insert_pelajaran'])) {
+          $nama_pelajaran=$_POST['nama_pelajaran'];
+
+          $query=mysql_query("INSERT into pelajaran(nama_pelajaran)
+                  values('$nama_pelajaran') ");
+          // echo "INSERT into ujian(nama_ujian,tgl_ujian,waktu,keterangan,id_pelajaran)
+          //         values('$nama_ujian','$tgl_ujian','$waktu','$keterangan',$id_pelajaran)";
+          if ($query) {
+            $msg="Data Berhasil ditambahkan";
+          }else{
+            // echo mysql_error();
+            $msg="Data Gagal ditambahkan";
+          }
+        }
+ ?>
       <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
         <!-- Content Header (Page header) -->
@@ -20,8 +37,33 @@ $jumlah=mysql_num_rows($aksi);
  ?>
         <!-- Main content -->
         <section class="content">
+        <?php if (isset($msg)): ?>
+        <div class="alert alert-warning alert-dismissible fade in" style="border-radius: 0px !important;" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <?php echo $msg; print_r($query);?>
+        </div>          
+        <?php endif ?>        
           <div class="row">
-            <div class="col-xs-12">
+            <div class="col-md-3">
+              <div class="box">
+                <div class="box-header">
+                  <h3 class="box-title">Input Pelajaran</h3>
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                <form class="form" method="post" action="">
+                  <div class="form-group">
+                    <label class="control-label">Nama Pelajaran</label>
+                    <input name="nama_pelajaran" type="text" class="form-control"></input>
+                  </div>
+                  <div class="form-group">
+                    <input name="id" type="hidden" value="<?php echo $id; ?>"></input>
+                    <input name="insert_pelajaran" type="submit" class="form-control btn btn-success btn-flat" value="Simpan"></input>
+                  </div>
+                </form>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+            </div>          
+            <div class="col-xs-9">
 
               <div class="box">
                 <div class="box-header">

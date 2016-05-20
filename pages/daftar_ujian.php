@@ -16,7 +16,7 @@ if (isset($_SESSION['username'])) {
        <div class="container">
             <div class="row">
                 <div class="center">
-                    <h2>Daftar Pelajaran</h2>
+                    <h2>Daftar Ujian</h2>
                     <p class="lead">Pellentesque habitant morbi tristique senectus et netus et malesuada</p>    
                 </div>        
             </div>
